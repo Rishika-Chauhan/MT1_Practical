@@ -1,0 +1,11 @@
+course management web application:
+node.js, HTTp Module, FS module.Express, use javascript
+{
+    id:101
+courename: fullstack dev
+coursecode:fs303
+department:ds
+}
+
+also use get, post, delete etc in postman
+ 

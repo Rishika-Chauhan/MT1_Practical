@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Management System</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #eaf2f8;
+            margin: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #154360;
+        }
+
+        h3 {
+            color: #2874a6;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid gray;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #2874a6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #154360;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid gray;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #aed6f1;
+        }
+
+        .delete {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Course Management System</h1>
+
+    <hr>
+
+    <h3>Add New Course</h3>
+
+    <input type="number" id="id" placeholder="Enter Course ID">
+
+    <input type="text" id="courename" placeholder="Enter Course Name">
+
+    <input type="text" id="coursecode" placeholder="Enter Course Code">
+
+    <input type="text" id="department" placeholder="Enter Department">
+
+    <button onclick="addCourse()">Add Course</button>
+
+    <hr>
+
+    <h3>Course List</h3>
+
+    <button onclick="getCourses()">View Courses</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Course Name</th>
+                <th>Course Code</th>
+                <th>Department</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="courseList"></tbody>
+    </table>
+
+</div>
+
+<script>
+
+// Get all courses
+async function getCourses() {
+
+    const response = await fetch('/courses');
+
+    const courses = await response.json();
+
+    let output = "";
+
+    courses.forEach(course => {
+
+        output += `
+            <tr>
+                <td>${course.id}</td>
+                <td>${course.courename}</td>
+                <td>${course.coursecode}</td>
+                <td>${course.department}</td>
+                <td>
+                    <button class="delete"
+                    onclick="deleteCourse(${course.id})">
+                    Delete
+                    </button>
+                </td>
+            </tr>
+        `;
+
+    });
+
+    document.getElementById("courseList").innerHTML = output;
+}
+
+
+// Add new course
+async function addCourse() {
+
+    const course = {
+
+        id: Number(document.getElementById("id").value),
+
+        courename: document.getElementById("courename").value,
+
+        coursecode: document.getElementById("coursecode").value,
+
+        department: document.getElementById("department").value
+
+    };
+
+    const response = await fetch('/courses', {
+
+        method: 'POST',
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(course)
+
+    });
+
+    alert(await response.text());
+
+    getCourses();
+
+}
+
+
+// Delete course
+async function deleteCourse(id) {
+
+    const response = await fetch('/courses/' + id, {
+
+        method: 'DELETE'
+
+    });
+
+    alert(await response.text());
+
+    getCourses();
+
+}
+
+</script>
+
+</body>
+</html>

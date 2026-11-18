@@ -1,0 +1,20 @@
+[
+  {
+    "id": 101,
+    "courename": "fullstack dev",
+    "coursecode": "FSD303",
+    "department": "ds"
+  },
+  {
+    "id": 102,
+    "courename": "Advance Data Structures",
+    "coursecode": "CSE304",
+    "department": "DS"
+  },
+  {
+    "id": 103,
+    "courename": "Object Oriented Programming",
+    "coursecode": "OOP305",
+    "department": "DS"
+  }
+]
